@@ -14,8 +14,16 @@ type Router struct {
 	handlers map[string]HandlerFunc
 }
 
-func NewRouter(handlers map[string]HandlerFunc) *Router {
-	return &Router{handlers: handlers}
+func NewRouter() *Router {
+	return &Router{handlers: make(map[string]HandlerFunc)}
+}
+
+func (r *Router) RegisterHandler(topic string, handler HandlerFunc) {
+	r.handlers[topic] = handler
+}
+
+func (r *Router) GetHandler(topic string) HandlerFunc {
+	return r.handlers[topic]
 }
 
 func (r *Router) Consume(ctx context.Context, reader *kafka.Reader) {
@@ -36,7 +44,6 @@ func (r *Router) Consume(ctx context.Context, reader *kafka.Reader) {
 			continue
 		}
 
-		// Обработать сообщение в отдельной горутине (если нужно параллелить)
 		go func(msg kafka.Message) {
 			if err := handler(ctx, msg); err != nil {
 				log.Printf("[kafka] handler error for topic %s: %v", msg.Topic, err)
@@ -60,10 +67,8 @@ func NewReader(cfg config.Kafka) *kafka.Reader {
 	return reader
 }
 
-func RegisterSomeConsumer(cfg config.Kafka, ctx context.Context, reader *kafka.Reader, handler func(context.Context, kafka.Message) error) {
-	handlers := map[string]HandlerFunc{
-		cfg.TopicOutput: imagedescriber.HandlerFunc,
-	}
-	router := NewRouter(handlers)
+func RegisterSomeConsumer(cfg config.Kafka, ctx context.Context, reader *kafka.Reader) {
+	router := NewRouter()
+	router.RegisterHandler(cfg.TopicOutput, imagedescriber.HandlerFunc)
 	router.Consume(ctx, reader)
 }
