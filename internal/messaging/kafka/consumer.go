@@ -11,24 +11,26 @@ import (
 type HandlerFunc func(ctx context.Context, msg kafka.Message) error
 
 type Router struct {
+	reader   *kafka.Reader
 	handlers map[string]HandlerFunc
 }
 
-func NewRouter() *Router {
-	return &Router{handlers: make(map[string]HandlerFunc)}
+func NewRouter(reader *kafka.Reader) *Router {
+	return &Router{reader: reader, handlers: make(map[string]HandlerFunc)}
 }
 
 func (r *Router) RegisterHandler(topic string, handler HandlerFunc) {
 	r.handlers[topic] = handler
 }
 
-func (r *Router) GetHandler(topic string) HandlerFunc {
-	return r.handlers[topic]
+func (r *Router) getHandler(topic string) (HandlerFunc, bool) {
+	handler, ok := r.handlers[topic]
+	return handler, ok
 }
 
-func (r *Router) Consume(ctx context.Context, reader *kafka.Reader) {
+func (r *Router) Consume(ctx context.Context) {
 	for {
-		m, err := reader.ReadMessage(ctx)
+		m, err := r.reader.ReadMessage(ctx)
 		if err != nil {
 			if ctx.Err() != nil {
 				log.Println("[kafka] consumer shutdown")
@@ -38,7 +40,7 @@ func (r *Router) Consume(ctx context.Context, reader *kafka.Reader) {
 			continue
 		}
 
-		handler, ok := r.handlers[m.Topic]
+		handler, ok := r.getHandler(m.Topic)
 		if !ok {
 			log.Printf("[kafka] no handler for topic %s, skipping offset=%d", m.Topic, m.Offset)
 			continue
@@ -68,7 +70,7 @@ func NewReader(cfg config.Kafka) *kafka.Reader {
 }
 
 func RegisterSomeConsumer(cfg config.Kafka, ctx context.Context, reader *kafka.Reader) {
-	router := NewRouter()
-	router.RegisterHandler(cfg.TopicOutput, imagedescriber.HandlerFunc)
-	router.Consume(ctx, reader)
+	router := NewRouter(reader)
+	router.RegisterHandler(cfg.TopicInput, imagedescriber.HandlerFunc)
+	router.Consume(ctx)
 }
