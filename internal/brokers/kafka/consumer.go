@@ -31,6 +31,7 @@ func (r *Router) getHandler(topic string) (HandlerFunc, bool) {
 func (r *Router) Consume(ctx context.Context) {
 	for {
 		m, err := r.reader.ReadMessage(ctx)
+		log.Printf("Message: %v", m)
 		if err != nil {
 			if ctx.Err() != nil {
 				log.Println("[kafka] consumer shutdown")
@@ -55,21 +56,14 @@ func (r *Router) Consume(ctx context.Context) {
 }
 
 func NewReader(cfg config.Kafka) *kafka.Reader {
-	reader := kafka.NewReader(kafka.ReaderConfig{
+	return kafka.NewReader(kafka.ReaderConfig{
 		Brokers: cfg.Brokers,
 		Topic:   cfg.TopicInput,
 		GroupID: cfg.GroupID,
 	})
-	defer func(reader *kafka.Reader) {
-		err := reader.Close()
-		if err != nil {
-			log.Fatal(err)
-		}
-	}(reader)
-	return reader
 }
 
-func RegisterSomeConsumer(cfg config.Kafka, ctx context.Context, reader *kafka.Reader) {
+func RegisterSomeConsumer(ctx context.Context, cfg config.Kafka, reader *kafka.Reader) {
 	router := NewRouter(reader)
 	router.RegisterHandler(cfg.TopicInput, imagedescriber.HandlerFunc)
 	router.Consume(ctx)
