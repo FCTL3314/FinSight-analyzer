@@ -3,7 +3,6 @@ package kafka
 import (
 	"context"
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/config"
-	"github.com/FCTL3314/ExerciseManager-Backend/internal/service/imagedescriber"
 	"github.com/segmentio/kafka-go"
 	"log"
 )
@@ -31,7 +30,6 @@ func (r *Router) getHandler(topic string) (HandlerFunc, bool) {
 func (r *Router) Consume(ctx context.Context) {
 	for {
 		m, err := r.reader.ReadMessage(ctx)
-		log.Printf("Message: %v", m)
 		if err != nil {
 			if ctx.Err() != nil {
 				log.Println("[kafka] consumer shutdown")
@@ -61,10 +59,4 @@ func NewReader(cfg config.Kafka) *kafka.Reader {
 		Topic:   cfg.TopicInput,
 		GroupID: cfg.GroupID,
 	})
-}
-
-func RegisterSomeConsumer(ctx context.Context, cfg config.Kafka, reader *kafka.Reader) {
-	router := NewRouter(reader)
-	router.RegisterHandler(cfg.TopicInput, imagedescriber.HandlerFunc)
-	router.Consume(ctx)
 }

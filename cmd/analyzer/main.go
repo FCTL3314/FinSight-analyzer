@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/brokers/kafka"
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/config"
+	"github.com/FCTL3314/ExerciseManager-Backend/internal/service/imagedescriber"
 	"log"
 	"os"
 	"os/signal"
@@ -36,7 +37,12 @@ func main() {
 	}()
 
 	log.Printf("Running consumer...")
-	kafka.RegisterSomeConsumer(ctx, cfg.Kafka, reader)
+
+	router := kafka.NewRouter(reader)
+	router.RegisterHandler(cfg.Kafka.TopicInput, imagedescriber.HandlerFunc)
+	go router.Consume(ctx)
+
+	<-ctx.Done()
 
 	log.Printf("Consumer stopped.")
 }
