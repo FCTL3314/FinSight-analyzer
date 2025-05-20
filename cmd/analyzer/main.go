@@ -29,7 +29,7 @@ func main() {
 		cancel()
 	}()
 
-	reader := kafka.NewReader(&cfg.Kafka)
+	reader := kafka.NewReader(&cfg.KafkaPoetic)
 	defer func() {
 		if err := reader.Close(); err != nil {
 			log.Printf("failed to close kafka reader: %v", err)
@@ -39,7 +39,9 @@ func main() {
 	log.Printf("Running consumer...")
 
 	router := kafka.NewRouter(reader)
-	router.RegisterHandler(cfg.Kafka.TopicInput, imagedescriber.HandlerFunc)
+	for _, topic := range cfg.KafkaPoetic.InputTopics {
+		router.RegisterHandler(topic, imagedescriber.HandlerFunc)
+	}
 	go router.Consume(ctx)
 
 	<-ctx.Done()

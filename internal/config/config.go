@@ -4,6 +4,8 @@ import (
 	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/config"
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
+	"os"
+	"strings"
 )
 
 type App struct {
@@ -29,11 +31,11 @@ type Analyzer struct {
 }
 
 type Config struct {
-	App      App
-	Kafka    config.Kafka
-	S3       S3
-	Database Database
-	Analyzer Analyzer
+	App         App
+	KafkaPoetic config.Kafka
+	S3          S3
+	Database    Database
+	Analyzer    Analyzer
 }
 
 func Load() (*Config, error) {
@@ -45,5 +47,13 @@ func Load() (*Config, error) {
 	if err := envconfig.Process("", &cfg); err != nil {
 		return nil, err
 	}
+
+	cfg.KafkaPoetic = config.Kafka{
+		Brokers:      strings.Split(os.Getenv("KAFKA_BROKERS"), ","), // TODO: Add split with trim func
+		InputTopics:  []string{os.Getenv("KAFKA_TOPIC_IN_POETIC")},
+		OutputTopics: []string{os.Getenv("KAFKA_TOPIC_OUT_POETIC")},
+		GroupID:      os.Getenv("KAFKA_GROUP_ID_POETIC"),
+	}
+
 	return &cfg, nil
 }

@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	github.com/FCTL3314/imagination-go-sdk v0.0.0-20250520203314-948ab2643e8f // indirect
+	github.com/FCTL3314/imagination-go-sdk v0.0.0-20250520215903-58f8302ac1e2 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 )
