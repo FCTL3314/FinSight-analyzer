@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/FCTL3314/ExerciseManager-Backend/internal/brokers/kafka"
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/config"
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/service/imagedescriber"
+	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka"
 	"log"
 	"os"
 	"os/signal"
@@ -29,7 +29,7 @@ func main() {
 		cancel()
 	}()
 
-	reader := kafka.NewReader(cfg.Kafka)
+	reader := kafka.NewReader(&cfg.Kafka)
 	defer func() {
 		if err := reader.Close(); err != nil {
 			log.Printf("failed to close kafka reader: %v", err)
