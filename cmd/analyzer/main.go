@@ -5,6 +5,7 @@ import (
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/config"
 	"github.com/FCTL3314/ExerciseManager-Backend/internal/service/imagedescriber"
 	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka"
+	kafkago "github.com/segmentio/kafka-go"
 	"log"
 	"os"
 	"os/signal"
@@ -29,7 +30,11 @@ func main() {
 		cancel()
 	}()
 
-	reader := kafka.NewReader(&cfg.KafkaPoetic)
+	reader := kafkago.NewReader(kafkago.ReaderConfig{
+		Brokers: cfg.Kafka.Brokers,
+		Topic:   cfg.Kafka.TopicIn,
+		GroupID: cfg.Kafka.GroupId,
+	})
 	defer func() {
 		if err := reader.Close(); err != nil {
 			log.Printf("failed to close kafka reader: %v", err)
@@ -39,9 +44,7 @@ func main() {
 	log.Printf("Running consumer...")
 
 	router := kafka.NewRouter(reader)
-	for _, topic := range cfg.KafkaPoetic.InputTopics {
-		router.RegisterHandler(topic, imagedescriber.HandlerFunc)
-	}
+	router.RegisterHandler(cfg.Kafka.TopicIn, imagedescriber.HandlerFunc)
 	go router.Consume(ctx)
 
 	<-ctx.Done()

@@ -4,6 +4,8 @@ github.com/FCTL3314/imagination-go-sdk v0.0.0-20250520212932-b96f9e747b9e h1:f5s
 github.com/FCTL3314/imagination-go-sdk v0.0.0-20250520212932-b96f9e747b9e/go.mod h1:7SyXGemEIZZM0HzeBx9TzSXQEwd2EPtQ47rpzKszztQ=
 github.com/FCTL3314/imagination-go-sdk v0.0.0-20250520215903-58f8302ac1e2 h1:iXNvlPVwrAbM777T3Y38u0cGba+Rv8WufxCcBOQ93iI=
 github.com/FCTL3314/imagination-go-sdk v0.0.0-20250520215903-58f8302ac1e2/go.mod h1:7SyXGemEIZZM0HzeBx9TzSXQEwd2EPtQ47rpzKszztQ=
+github.com/FCTL3314/imagination-go-sdk v0.0.0-20250521184332-b1fa3f9cee32 h1:5U9qegaz1s7Aj1W1MZ03fUlbC+eWKMl11e5bPvL3gAg=
+github.com/FCTL3314/imagination-go-sdk v0.0.0-20250521184332-b1fa3f9cee32/go.mod h1:7SyXGemEIZZM0HzeBx9TzSXQEwd2EPtQ47rpzKszztQ=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

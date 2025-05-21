@@ -1,11 +1,8 @@
 package config
 
 import (
-	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/config"
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
-	"os"
-	"strings"
 )
 
 type App struct {
@@ -26,16 +23,18 @@ type Database struct {
 	Name     string `envconfig:"DB_NAME" required:"true"`
 }
 
-type Analyzer struct {
-	MaxImageSizeMB uint32 `envconfig:"MAX_IMAGE_SIZE_MB" default:"100"`
+type Kafka struct {
+	Brokers  []string `envconfig:"KAFKA_BROKERS" required:"true"`
+	TopicIn  string   `envconfig:"KAFKA_TOPIC_POETIC_IMAGE_DESCRIPTION_IN" required:"true"`
+	TopicOut string   `envconfig:"KAFKA_TOPIC_POETIC_IMAGE_DESCRIPTION_OUT" required:"true"`
+	GroupId  string   `envconfig:"KAFKA_GROUP_POETIC_IMAGE_DESCRIPTION_ID" required:"true"`
 }
 
 type Config struct {
-	App         App
-	KafkaPoetic config.Kafka
-	S3          S3
-	Database    Database
-	Analyzer    Analyzer
+	App
+	Kafka
+	S3
+	Database
 }
 
 func Load() (*Config, error) {
@@ -46,13 +45,6 @@ func Load() (*Config, error) {
 	var cfg Config
 	if err := envconfig.Process("", &cfg); err != nil {
 		return nil, err
-	}
-
-	cfg.KafkaPoetic = config.Kafka{
-		Brokers:      strings.Split(os.Getenv("KAFKA_BROKERS"), ","), // TODO: Add split with trim func
-		InputTopics:  []string{os.Getenv("KAFKA_TOPIC_IN_POETIC")},
-		OutputTopics: []string{os.Getenv("KAFKA_TOPIC_OUT_POETIC")},
-		GroupID:      os.Getenv("KAFKA_GROUP_ID_POETIC"),
 	}
 
 	return &cfg, nil
