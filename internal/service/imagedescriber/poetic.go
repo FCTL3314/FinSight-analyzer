@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func HandlerFunc(ctx context.Context, msg kafka.Message) error {
+func DescribeImagePoetically(ctx context.Context, msg kafka.Message) error {
 	log.Printf("Broker message: %+v", msg)
 	log.Printf("Message value: %+v", string(msg.Value))
 	return nil

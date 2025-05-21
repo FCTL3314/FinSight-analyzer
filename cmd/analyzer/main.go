@@ -44,7 +44,7 @@ func main() {
 	log.Printf("Running consumer...")
 
 	router := kafka.NewRouter(reader)
-	router.RegisterHandler(cfg.Kafka.TopicIn, imagedescriber.HandlerFunc)
+	router.RegisterHandler(cfg.Kafka.TopicIn, imagedescriber.DescribeImagePoetically)
 	go router.Consume(ctx)
 
 	<-ctx.Done()
