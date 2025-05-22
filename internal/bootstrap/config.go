@@ -1,4 +1,4 @@
-package config
+package bootstrap
 
 import (
 	"github.com/joho/godotenv"
@@ -6,7 +6,8 @@ import (
 )
 
 type App struct {
-	Debug bool `envconfig:"DEBUG" default:"false"`
+	Debug                          bool `envconfig:"DEBUG" default:"false"`
+	PoeticImgDescriptionMaxWorkers int  `envconfig:"POETIC_IMAGE_DESCRIPTION_MAX_WORKERS" required:"true"`
 }
 
 type S3 struct {
@@ -31,13 +32,13 @@ type Kafka struct {
 }
 
 type Config struct {
-	App
-	Kafka
-	S3
-	Database
+	App      App
+	Kafka    Kafka
+	S3       S3
+	Database Database
 }
 
-func Load() (*Config, error) {
+func LoadConfig() (*Config, error) {
 	if err := godotenv.Load(".env"); err != nil {
 		return nil, err
 	}
