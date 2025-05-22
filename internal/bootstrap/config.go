@@ -6,8 +6,16 @@ import (
 )
 
 type App struct {
-	Debug                          bool `envconfig:"DEBUG" default:"false"`
-	PoeticImgDescriptionMaxWorkers int  `envconfig:"POETIC_IMAGE_DESCRIPTION_MAX_WORKERS" required:"true"`
+	Debug    bool `envconfig:"DEBUG" default:"false"`
+	Services Services
+}
+
+type Services struct {
+	PoeticImgDescription PoeticImgDescription
+}
+
+type PoeticImgDescription struct {
+	MaxWorkers int `envconfig:"POETIC_IMAGE_DESCRIPTION_MAX_WORKERS" required:"true"`
 }
 
 type S3 struct {
@@ -24,27 +32,41 @@ type Database struct {
 	Name     string `envconfig:"DB_NAME" required:"true"`
 }
 
+type Kafkas struct {
+	PoeticImgDescription *Kafka
+}
+
 type Kafka struct {
-	Brokers  []string `envconfig:"KAFKA_BROKERS" required:"true"`
-	TopicIn  string   `envconfig:"KAFKA_TOPIC_POETIC_IMAGE_DESCRIPTION_IN" required:"true"`
-	TopicOut string   `envconfig:"KAFKA_TOPIC_POETIC_IMAGE_DESCRIPTION_OUT" required:"true"`
-	GroupId  string   `envconfig:"KAFKA_GROUP_POETIC_IMAGE_DESCRIPTION_ID" required:"true"`
+	Brokers  []string `envconfig:"KAFKA_BROKERS"  required:"true"`
+	TopicIn  string   `envconfig:"KAFKA_TOPIC_IN" required:"true"`
+	TopicOut string   `envconfig:"KAFKA_TOPIC_OUT" required:"true"`
+	GroupID  string   `envconfig:"KAFKA_GROUP_ID" required:"true"`
 }
 
 type Config struct {
 	App      App
-	Kafka    Kafka
+	Kafkas   Kafkas
 	S3       S3
 	Database Database
 }
 
 func LoadConfig() (*Config, error) {
-	if err := godotenv.Load(".env"); err != nil {
+	_ = godotenv.Load(".env")
+
+	var cfg Config
+
+	if err := envconfig.Process("", &cfg.App); err != nil {
+		return nil, err
+	}
+	if err := envconfig.Process("", &cfg.S3); err != nil {
+		return nil, err
+	}
+	if err := envconfig.Process("", &cfg.Database); err != nil {
 		return nil, err
 	}
 
-	var cfg Config
-	if err := envconfig.Process("", &cfg); err != nil {
+	cfg.Kafkas.PoeticImgDescription = new(Kafka)
+	if err := envconfig.Process("POETIC_IMAGE_DESCRIPTION", cfg.Kafkas.PoeticImgDescription); err != nil {
 		return nil, err
 	}
 

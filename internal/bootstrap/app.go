@@ -57,9 +57,9 @@ func (app *Application) initLogger() {
 
 func (app *Application) initImgPoeticDescriptionConsumer() {
 	cfg := kafka.ConsumerConfig{
-		Brokers:        app.Cfg.Kafka.Brokers,
-		Topic:          app.Cfg.Kafka.TopicIn,
-		GroupID:        app.Cfg.Kafka.GroupId,
+		Brokers:        app.Cfg.Kafkas.PoeticImgDescription.Brokers,
+		Topic:          app.Cfg.Kafkas.PoeticImgDescription.TopicIn,
+		GroupID:        app.Cfg.Kafkas.PoeticImgDescription.GroupID,
 		MinBytes:       10e3, // 10KB
 		MaxBytes:       10e6, // 10MB
 		CommitInterval: time.Second,
@@ -67,7 +67,7 @@ func (app *Application) initImgPoeticDescriptionConsumer() {
 	}
 
 	poolHandler := workerpool.NewPoolHandler(
-		app.Cfg.App.PoeticImgDescriptionMaxWorkers,
+		app.Cfg.App.Services.PoeticImgDescription.MaxWorkers,
 		kafka.HandlerFunc(imagedescriber.DescribeImagePoetically),
 		app.Logger,
 	)
