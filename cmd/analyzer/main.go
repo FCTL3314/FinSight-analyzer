@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/FCTL3314/ExerciseManager-Backend/internal/bootstrap"
+	"github.com/FCTL3314/imagination-analyzer/internal/bootstrap"
 	"log"
 	"os"
 	"os/signal"

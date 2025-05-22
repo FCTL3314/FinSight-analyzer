@@ -1,7 +1,7 @@
 package bootstrap
 
 import (
-	"github.com/FCTL3314/ExerciseManager-Backend/internal/service/imagedescriber"
+	"github.com/FCTL3314/imagination-analyzer/internal/service/imagedescriber"
 	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka"
 	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka/workerpool"
 	"go.uber.org/zap"
