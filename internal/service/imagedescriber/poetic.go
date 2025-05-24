@@ -9,7 +9,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func DescribeImagePoetically(
+func DescribeImagePoeticallyHandler(
 	ctx context.Context,
 	logger *zap.Logger,
 	metadata *kafkasdk.MessageMetadata,
@@ -22,7 +22,16 @@ func DescribeImagePoetically(
 	}
 	logger.Info("parsed message payload", zap.Any("image_to_describe", payload))
 
-	// … здесь остальная логика DescribeImagePoetically …
+	_, err := DescribeImagePoetically(payload.ImageURL, logger)
+	if err != nil {
+		logger.Error("failed to describe image", zap.Error(err))
+	}
+
+	// send description into output topic
 
 	return nil
+}
+
+func DescribeImagePoetically(imageURL string, logger *zap.Logger) (string, error) {
+	return "", nil
 }

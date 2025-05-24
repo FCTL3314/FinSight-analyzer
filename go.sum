@@ -1,11 +1,3 @@
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522194515-db47b5279461 h1:3UVjXX8Xqgpka4Nn+EbdoCrI8YomDcK3koeQXo4fut4=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522194515-db47b5279461/go.mod h1:4L9M+g0VZDBVyNGqf59JohxZEwGASL1GuM8A7eIK7IM=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522203646-eded0acaef49 h1:N7suN8V+3Jn6sQqqkTDMBfOCufcJ5Pc1EYEnzD6EyfM=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522203646-eded0acaef49/go.mod h1:4L9M+g0VZDBVyNGqf59JohxZEwGASL1GuM8A7eIK7IM=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522203919-b47ad90bdd60 h1:mqJFCa14faaAr+POWNOewjut/Gx0DwWAlOLSnGOopyU=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522203919-b47ad90bdd60/go.mod h1:4L9M+g0VZDBVyNGqf59JohxZEwGASL1GuM8A7eIK7IM=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522205051-1ce712f1a0bc h1:a6fu51MdDhI4Zom2lNTe6tuZTT0fUV2WtxJVy0MQYFE=
-github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522205051-1ce712f1a0bc/go.mod h1:4L9M+g0VZDBVyNGqf59JohxZEwGASL1GuM8A7eIK7IM=
 github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522210651-323c95b2d59f h1:AkAuBAMTnyaqEX7wLZ/I8S8VB4bBBggq2evtXKV6AKY=
 github.com/FCTL3314/imagination-go-sdk v0.0.0-20250522210651-323c95b2d59f/go.mod h1:4L9M+g0VZDBVyNGqf59JohxZEwGASL1GuM8A7eIK7IM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

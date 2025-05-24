@@ -68,7 +68,7 @@ func (app *Application) initImgPoeticDescriptionConsumer() {
 
 	poolHandler := workerpool.NewPoolHandler(
 		app.Cfg.App.Services.PoeticImgDescription.MaxWorkers,
-		kafka.HandlerFunc(imagedescriber.DescribeImagePoetically),
+		kafka.HandlerFunc(imagedescriber.DescribeImagePoeticallyHandler),
 		app.Logger,
 	)
 	consumer := kafka.NewConsumer(cfg, poolHandler)
