@@ -3,8 +3,8 @@ package imagedescriber
 import (
 	"context"
 	"encoding/json"
-	"github.com/FCTL3314/imagination-analyzer/pkg/models"
-	kafkasdk "github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka"
+	"github.com/FCTL3314/FinSight-analyzer/pkg/models"
+	kafkasdk "github.com/FCTL3314/FinSight-go-sdk/pkg/brokers/kafka"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )

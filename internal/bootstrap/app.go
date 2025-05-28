@@ -1,9 +1,9 @@
 package bootstrap
 
 import (
-	"github.com/FCTL3314/imagination-analyzer/internal/service/imagedescriber"
-	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka"
-	"github.com/FCTL3314/imagination-go-sdk/pkg/brokers/kafka/workerpool"
+	"github.com/FCTL3314/FinSight-analyzer/internal/service/imagedescriber"
+	"github.com/FCTL3314/FinSight-go-sdk/pkg/brokers/kafka"
+	"github.com/FCTL3314/FinSight-go-sdk/pkg/brokers/kafka/workerpool"
 	"go.uber.org/zap"
 	"log"
 	"time"

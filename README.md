@@ -1,1 +1,1 @@
-# imagination-analyzer
+# FinSight-analyzer
